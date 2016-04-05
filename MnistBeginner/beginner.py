@@ -8,6 +8,9 @@
 ### Import module ###
 from tensorflow.examples.tutorials.mnist import input_data
 import tensorflow as tf
+import sys
+import os
+from time import time
 
 ### Command Line Arguments ###
 _verb = "-v" in sys.argv
@@ -61,12 +64,12 @@ if __name__ == "__main__":
     ### Proper training ###
     #######################
     for i in range(1000):
-        batch_xxs, batch_ys = mnist.train.next_batch(100)
+        batch_xs, batch_ys = mnist.train.next_batch(100)
         sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
 
     ### Model evaluation ###
     ########################
     correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
-    accuracy = tf.reduce_mean(tf.cast(coreect_prediction, tf.float32))
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
     
-    if verb_: print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}))
+    if _verb: print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}))
