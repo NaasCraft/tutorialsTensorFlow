@@ -15,19 +15,14 @@ from time import time
 ### Command Line Arguments ###
 _verb = "-v" in sys.argv
 _help = "-h" in sys.argv
-
-### Path variables ###
-fileDir_ = os.path.dirname(os.path.realpath('__file__'))
-dataPath_ = os.path.join( fileDir_, "../source/data/")
-picklePath_ = os.path.join( fileDir_, "pickles/" )
-outPath_ = os.path.join( fileDir_, "submission/tmp/")
-modelPath_ = os.path.join( fileDir_, "models/tmp/")
-
+_runTime = "-rt" in sys.argv
 
 if __name__ == "__main__":
+    if _runTime: t = time()
+    
     ### Data importation ###
     ########################
-    mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
+    mnist = input_data.read_data_sets("../MnistDDL/MNIST_data/", one_hot=True)
 
     ### Variables and placeholders ###
     # Model description :            #
@@ -73,3 +68,9 @@ if __name__ == "__main__":
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
     
     if _verb: print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}))
+    
+    if _runTime: print("Total run time : " + str(time() - t) + " s.\n")
+        
+    ### Session closing ###
+    #######################
+    sess.close()
